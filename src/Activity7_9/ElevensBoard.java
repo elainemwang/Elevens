@@ -56,6 +56,10 @@ public class ElevensBoard extends Board {
 	@Override
 	public boolean isLegal(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+            if(containsPairSum11(selectedCards)||containsJQK(selectedCards)){
+                return true;
+            }
+            return false;
 	}
 
 	/**
@@ -69,6 +73,32 @@ public class ElevensBoard extends Board {
 	@Override
 	public boolean anotherPlayIsPossible() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+            
+            List <Integer> sel = new ArrayList<Integer>();
+            for(Integer i : cardIndexes()){
+                for(Integer j : cardIndexes()){
+                    sel.add(i);
+                    sel.add(j);
+                    if(containsPairSum11(sel)){
+                        return true;
+                    }
+                    sel.clear();
+                }
+            }
+            for(Integer i : cardIndexes()){
+                for(Integer j : cardIndexes()){
+                    for(Integer k : cardIndexes()){
+                        sel.add(i);
+                        sel.add(j);
+                        sel.add(k);
+                        if(containsJQK(sel)){
+                            return true;
+                        }
+                        sel.clear();
+                    }
+                }
+            }
+            return false;
 	}
 
 	/**
@@ -81,6 +111,12 @@ public class ElevensBoard extends Board {
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+            if(selectedCards.size() == 2){
+                if(cardAt(selectedCards.get(0)).pointValue()+cardAt(selectedCards.get(1)).pointValue()==11){
+                    return true;
+                }
+            }
+            return false;
 	}
 
 	/**
@@ -93,5 +129,20 @@ public class ElevensBoard extends Board {
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+            if(selectedCards.size() == 3){
+                Card card1 = cardAt(selectedCards.get(0));
+                Card card2 = cardAt(selectedCards.get(1));
+                Card card3 = cardAt(selectedCards.get(2));
+                if(card1.rank().equals("jack")||card2.rank().equals("jack")||card3.rank().equals("jack")){
+                    if(card1.rank().equals("queen")||card2.rank().equals("queen")||card3.rank().equals("queen")){
+                        if(card1.rank().equals("king")||card2.rank().equals("king")||card3.rank().equals("king")){
+                            return true;
+                        }
+                    }
+                }
+                
+                
+            }
+            return false;
 	}
 }
